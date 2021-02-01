@@ -1,0 +1,23 @@
+FROM ubuntu:20.04
+
+RUN apt-get update \
+    && apt-get -y  install \
+        # intra-slurm authentication
+        munge \
+        # slurm
+        slurm-wlm \
+        # for running multiple processes
+        supervisor
+
+
+# configure supervisord to start all required deamons
+COPY supervisord.conf-node /etc/supervisor/supervisord.conf
+RUN mkdir /run/munge
+RUN chown munge:munge /run/munge
+
+# configure slurmctrld
+COPY slurm.conf /etc/slurm-llnl/slurm.conf
+RUN mkdir --parents /var/run/slurm-llnl/
+
+CMD [ "/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/supervisord.conf" ]
+

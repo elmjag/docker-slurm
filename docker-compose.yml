@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  slurmctl:
+    hostname: slurmctl
+    image: slurmctl
+    build:
+      context: .
+      dockerfile: slurmctl
+  node1:
+    hostname: node1
+    image: node1
+    build:
+      context: .
+      dockerfile: node
+
