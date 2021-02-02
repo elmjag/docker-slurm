@@ -1,0 +1,32 @@
+FROM ubuntu:20.04
+
+RUN apt-get update \
+    && apt-get -y  install \
+        # slurmd build tools
+        git gcc make python3 \
+        # slurmrestd dependencies
+        libhttp-parser-dev libjwt-dev libyaml-dev libjson-c-dev \
+        # intra-slurm authentication
+        munge libmunge-dev \
+        # for running multiple processes
+        supervisor
+
+#
+# clone and build slurm
+#
+RUN git clone https://github.com/SchedMD/slurm.git
+WORKDIR slurm
+RUN git checkout slurm-20-11-3-1
+RUN ./configure
+RUN make -j install
+
+# create 'slurm' user
+RUN useradd --no-create-home --home-dir /nonexistent slurm
+
+# prepare munge run-directory
+RUN mkdir /run/munge
+RUN chown munge:munge /run/munge
+
+# include slurm 'cluster' configuration
+COPY slurm.conf /usr/local/etc/slurm.conf
+

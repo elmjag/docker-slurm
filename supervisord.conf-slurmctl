@@ -21,7 +21,5 @@ user=munge
 
 # slurm controller service
 [program:slurmctl]
-command=/usr/sbin/slurmctld -D
-
-
+command=/usr/local/sbin/slurmctld -D
 
