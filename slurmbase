@@ -34,3 +34,12 @@ RUN chown munge:munge /run/munge
 # include slurm 'cluster' configuration
 COPY slurm.conf /usr/local/etc/slurm.conf
 
+# create a user account for an HPC user
+RUN useradd --create-home eir --shell /bin/bash
+
+# install HPC user ssh key,
+# for passwordless logins
+RUN mkdir --mode=go-rwx /home/eir/.ssh
+COPY eir_key.pub /home/eir/.ssh/authorized_keys
+RUN chown eir:eir --recursive /home/eir/.ssh
+
