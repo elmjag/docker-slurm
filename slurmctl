@@ -1,11 +1,22 @@
 FROM slurmbase
-#FROM ubuntu:20.04
+
+
+RUN apt-get -y  install \
+    # SQL server for slurmdbd
+    mariadb-server
+
+# config for slurmdbd
+COPY slurmdbd.conf /usr/local/etc/slurmdbd.conf
+RUN chown slurm:slurm /usr/local/etc/slurmdbd.conf
+RUN mkdir --parents /var/log/slurm/
 
 # configure supervisord to start all required deamons
 COPY supervisord.conf-slurmctl /etc/supervisor/supervisord.conf
 
 RUN mkdir --parents /var/spool/slurmstate
 RUN chown slurm:slurm /var/spool/slurmstate
+
+COPY mariadb_wrapper.sh /
 
 
 CMD [ "/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/supervisord.conf" ]

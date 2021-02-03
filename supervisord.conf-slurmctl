@@ -19,6 +19,16 @@ childlogdir=/var/log/supervisor            ; ('AUTO' child log dir, default $TEM
 command=/usr/sbin/munged --foreground
 user=munge
 
+# SQL service (via MariaDB)
+[program:mariadb]
+# the wrapper script is a hack to create 'slurm' database user
+# on database daemon start-up
+command=/mariadb_wrapper.sh
+
+# slurm database service
+[program:slurmdbd]
+command=/usr/local/sbin/slurmdbd -D
+
 # slurm controller service
 [program:slurmctl]
 command=/usr/local/sbin/slurmctld -D

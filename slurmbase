@@ -2,8 +2,12 @@ FROM ubuntu:20.04
 
 RUN apt-get update \
     && apt-get -y  install \
+        # convinience stuff
+        nano less \
         # slurmd build tools
         git gcc make python3 \
+        # slurmdbd dependencies
+        libmariadb-dev \
         # slurmrestd dependencies
         libhttp-parser-dev libjwt-dev libyaml-dev libjson-c-dev \
         # intra-slurm authentication

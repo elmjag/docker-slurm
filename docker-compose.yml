@@ -8,6 +8,7 @@ services:
   slurmctl:
     hostname: slurmctl
     image: slurmctl
+    container_name: slurmctl
     build:
       context: .
       dockerfile: slurmctl
@@ -16,6 +17,7 @@ services:
   node1:
     hostname: node1
     image: node1
+    container_name: node1
     build:
       context: .
       dockerfile: node
