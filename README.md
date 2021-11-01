@@ -23,5 +23,5 @@ Running
 
 Run 'docker-compose up -d' in this directory.
 
-Will start both containers. Attach to either, for exaple by using 'docker exec -ti vslurm_slurmctl_1 bash'
+Will start both containers. Attach to either, for exaple by using 'docker exec -ti slurmctl bash'
 Once inside the container, the slurm commands such as srun, sbatch, squeue should be available.
